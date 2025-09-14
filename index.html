@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<!doctype html>  
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gooner test (luna's edition)</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff; /* White background */
+      color: #000; /* Black text */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #000;
+    }
+
+    .question {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      background-color: #000;
+      color: white;
+      border: 1px solid #000;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #333;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .result-box {
+      font-size: 1.5rem;
+      color: #000;
+      margin-top: 30px;
+    }
+
+    /* Confetti */
+    .confetti {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #000;
+      border-radius: 50%;
+      animation: confettiFall 2s ease-in-out forwards;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        opacity: 1;
+        transform: translateY(-50px) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <h1>Gooner test.</h1>
+
+    <!-- Question 1 -->
+    <div id="question1">
+      <p class="question">which fortnite sweat is this?</p>
+      <button class="button" onclick="choosePerson('Luna')">loUwU</button>
+      <button class="button" onclick="choosePerson('Alex')">thee midas gooner</button>
+      <button class="button" onclick="choosePerson('Jamie')">giggleshitter.exe</button>
+    </div>
+
+    <!-- Question 2 -->
+    <div id="question2" class="hidden">
+      <p class="question">Now now, pick ONE ONLY</p>
+      <button class="button" onclick="answer(2, 'Midas')">Midas</button>
+      <button class="button" onclick="answer(2, 'Montague')">Montague</button>
+      <button class="button" onclick="answer(2, 'me')">me (obviously the right pick)</button>
+    </div>
+
+    <!-- Question 3 -->
+    <div id="question3" class="hidden">
+      <p class="question">is the white ass screen blinding you</p>
+      <button class="button" onclick="answer(3, 'Pizza')">yes ur dogshit at making colors</button>
+      <button class="button" onclick="answer(3, 'Sushi')">no (how)</button>
+      <button class="button" onclick="answer(3, 'Burger')">idk leave me alone</button>
+    </div>
+
+    <!-- Question 4 -->
+    <div id="question4" class="hidden">
+      <p class="question">are we in love </p>
+      <button class="button" onclick="answer(4, 'Pizza')">yes discord daddy</button>
+      <button class="button" onclick="answer(4, 'Sushi')">no. </button>
+      <button class="button" onclick="answer(4, 'Burger')">cream!</button>
+    </div>
+
+    <!-- Question 5 (New) -->
+    <div id="question5" class="hidden">
+      <p class="question">Shall we all just get married?? :3</p>
+      <button class="button" onclick="answer(5, 'Paris')">YES</button>
+      <button class="button" onclick="answer(5, 'Tokyo')">Yes!!</button>
+      <button class="button" onclick="answer(5, 'Mars')">yes. (very democratic)</button>
+    </div>
+
+    <!-- Question 6 -->
+    <div id="question6" class="hidden">
+      <p class="question">now prove it. Which of these words is spelled correctly? </p>
+      <button class="button" onclick="answer(6, 'Pizza')">Floccinaucinihilipilification</button>
+      <button class="button" onclick="answer(6, 'Sushi')">Flocinnaucinilihilipification</button>
+      <button class="button" onclick="answer(6, 'Burger')">Flocinaucinilihipilification</button>
+    </div>
+
+    <!-- Final Result -->
+    <div id="result" class="hidden result-box">
+      <p>JUST KIDDING!! NOW WE'RE MARRIED. (also your test came out as positive, you are a gooner.)</p>
+      <button class="button" onclick="finishGame()">Finish</button>
+    </div>
+  </div>
+
+  <!-- Confetti -->
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    let chosenName = '';
+    let answers = [];
+
+    // Choose the person for the proposal
+    function choosePerson(person) {
+      chosenName = person;
+      document.getElementById('question1').classList.add('hidden');
+      document.getElementById('question2').classList.remove('hidden');
+    }
+
+    // Handle answers for each question
+    function answer(qnum, choice) {
+      answers[qnum] = choice;
+
+      setTimeout(() => {
+        const currentQuestion = document.getElementById('question' + qnum);
+        currentQuestion.classList.add('hidden');
+        const nextQuestion = document.getElementById('question' + (qnum + 1));
+        if (nextQuestion) {
+          nextQuestion.classList.remove('hidden');
+        } else {
+          showResult();
+        }
+      }, 500);
+    }
+
+    // Show the final result and trigger confetti
+    function showResult() {
+      document.getElementById('result').classList.remove('hidden');
+      launchConfetti();
+    }
+
+    // Launch confetti animation
+    function launchConfetti() {
+      const holder = document.getElementById('confetti');
+      holder.innerHTML = '';
+      const colors = ['#000', '#333', '#555', '#777', '#999'];
+      for (let i = 0; i < 200; i++) {
+        const div = document.createElement('div');
+        div.className = 'confetti-piece';
+        div.style.left = `${Math.random() * 100}%`;
+        div.style.top = `${Math.random() * 100}%`;
+        div.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        holder.appendChild(div);
+        (function (el, delay) {
+          setTimeout(() => {
+            el.style.transition = `transform ${2 + Math.random() * 1.5}s ease-in-out, opacity 1.5s`;
+            el.style.transform = `translateY(${Math.random() * 100}vh) rotate(${Math.random() * 360}deg)`;
+            el.style.opacity = 0.8;
+          }, delay);
+        })(div, i * 5);
+      }
+    }
+
+    // Finish the game and reload
+    function finishGame() {
+      alert(`Congratulations, ${chosenName}! You completed the proposal game! 🎉`);
+      location.reload();
+    }
+  </script>
+
+</body>
+</html>
